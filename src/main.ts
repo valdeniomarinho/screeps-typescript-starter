@@ -22,6 +22,7 @@ declare global {
   }
 
   // Syntax for adding proprties to `global` (ex "global.log")
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
     interface Global {
       log: any;
