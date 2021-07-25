@@ -1,5 +1,5 @@
 export default class Actions {
-  public build = (creep: Creep): void => {
+  public static build = (creep: Creep): void => {
     creep.say("Build ✔️")
     const constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES)
 
@@ -12,7 +12,7 @@ export default class Actions {
     }
   }
 
-  public miner = (creep: Creep, source: number): void => {
+  public static miner = (creep: Creep, source: number): void => {
     creep.say("Mine ✔️")
     const energySources = creep.room.find(FIND_SOURCES)
 
@@ -24,14 +24,14 @@ export default class Actions {
     }
   }
 
-  public rest = (creep: Creep, flagName: string): void => {
+  public static rest = (creep: Creep, flagName: string): void => {
     creep.moveTo(Game.flags[flagName].pos, {
       visualizePathStyle: { stroke: "#00ffff" }
     })
     creep.say("💤")
   }
 
-  public transfer = (creep: Creep, destination: Structure[]): void => {
+  public static transfer = (creep: Creep, destination: Structure[]): void => {
     creep.say("Transfer ✔️")
     if (creep.transfer(destination[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
       creep.moveTo(destination[0], {
@@ -40,7 +40,7 @@ export default class Actions {
     }
   }
 
-  public upgrade = (creep: Creep): void => {
+  public static upgrade = (creep: Creep): void => {
     creep.say("Upgrade ✔️")
     if (creep.room.controller && creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
       creep.moveTo(creep.room.controller, {

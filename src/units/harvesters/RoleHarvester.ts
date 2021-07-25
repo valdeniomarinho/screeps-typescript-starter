@@ -1,9 +1,18 @@
 import Actions from "utils/Actions"
 
-const roleHarvester = {
-  run(creep: Creep, active: boolean, actions: Actions, source: number): void {
-    if (active) {
-      // TARGETS TO UNLOAD ENERGY
+export default class RoleHarvester {
+  public static active = false
+  public static total = 0
+  public static source = 0
+  public static model: BodyPartConstant[] = [WORK, CARRY, MOVE]
+
+  public static get current(): number {
+    const current_harvesters = _.filter(Game.creeps, creep => creep.memory.role === "harvester")
+    return current_harvesters.length
+  }
+
+  public static run(creep: Creep, restpoint: string): void {
+    if (this.active) {
       const depots = creep.room.find(FIND_STRUCTURES, {
         filter: structure => {
           return (
@@ -16,16 +25,14 @@ const roleHarvester = {
       })
 
       if (creep.store.getFreeCapacity() > 0 && depots.length) {
-        actions.miner(creep, source)
+        Actions.miner(creep, this.source)
       } else if (!creep.store.getFreeCapacity() && depots.length) {
-        actions.transfer(creep, depots)
+        Actions.transfer(creep, depots)
       } else {
-        actions.rest(creep, "Rest1")
+        Actions.rest(creep, restpoint)
       }
     } else {
-      actions.rest(creep, "Rest1")
+      Actions.rest(creep, restpoint)
     }
   }
 }
-
-export default roleHarvester

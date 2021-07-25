@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorMapper } from "utils/ErrorMapper"
-import Actions from "utils/Actions"
 import Logger from "utils/Logger"
-import roleBuilder from "units/builders/role.builder"
-import roleHarvester from "units/harvesters/role.harvester"
-import roleUpgrader from "units/upgraders/role.upgrader"
-import cfgHarvester from "units/harvesters/cfg.harvester"
-import cfgBuilder from "units/builders/cfg.builder"
-import cfgUpgrader from "units/upgraders/cfg.upgrader"
+import RoleHarvester from "units/harvesters/RoleHarvester"
+import RoleUpgrader from "units/upgraders/RoleUpgrader"
+import RoleBuilder from "units/builders/RoleBuilder"
 
 // INTERFACE #region[magenta]
 //
@@ -35,53 +31,22 @@ declare global {
 // ╔══════════════════╗
 // ║ Global Variables ║
 // ╚══════════════════╝
+const restpoint = "Rest1"
 
-const activated_harvesters = true // active
-const spawn_harvester = 1 // total
-const model_harvesters = [WORK, WORK, CARRY, MOVE] // model
-const source_harvesters = 1 // source
+RoleHarvester.active = true
+RoleHarvester.total = 1
+RoleHarvester.model = [WORK, CARRY, MOVE]
+RoleHarvester.source = 0
 
-const activated_upgraders = true
-const spawn_upgrader = 2
-const model_upgraders = [WORK, WORK, CARRY, MOVE]
-const source_upgraders = 1
+RoleUpgrader.active = true
+RoleUpgrader.total = 2
+RoleUpgrader.model = [WORK, CARRY, MOVE]
+RoleUpgrader.source = 1
 
-const activated_builders = true
-const spawn_builder = 2
-const model_builders = [WORK, WORK, CARRY, MOVE]
-const source_builders = 0
-
-const activated_harvesters_external = false
-const activated_harvesters_mineral = false
-const activated_repairers = false
-const activated_notifiers = false
-const activated_attackers = false
-const activated_defenders = false
-const activated_explorers = false
-const activated_claimers = false
-const activated_fillers = false
-
-const spawn_harvester_external = 0
-const spawn_harvester_mineral = 0
-const spawn_repair = 0
-const spawn_notifier = 0
-const spawn_attacker = 0
-const spawn_defender = 0
-const spawn_explorer = 0
-const spawn_claimer = 0
-const spawn_filler = 0
-
-const model_harvesters_external = []
-const model_harvesters_mineral = []
-const model_repairers = [WORK, WORK, CARRY, MOVE]
-const model_notifiers = []
-const model_attackers = []
-const model_defenders = []
-const model_explorers = []
-const model_claimers = []
-const model_fillers = []
-
-const actions = new Actions()
+RoleBuilder.active = true
+RoleBuilder.total = 2
+RoleBuilder.model = [WORK, CARRY, MOVE]
+RoleBuilder.source = 1
 
 // MAIN #region [blue]
 export const loop = ErrorMapper.wrapLoop(() => {
@@ -112,10 +77,10 @@ export const loop = ErrorMapper.wrapLoop(() => {
   // ╔═══════════════════╗
   // ║ Harvester Spawner ║
   // ╚═══════════════════╝
-  if (cfgHarvester.current < cfgHarvester.total) {
+  if (RoleHarvester.current < RoleHarvester.total) {
     const newName = `Harvester${Game.time}`
     console.log(`Spawning new harvester: ${newName}`)
-    Game.spawns.Spawn1.spawnCreep(cfgHarvester.model, newName, {
+    Game.spawns.Spawn1.spawnCreep(RoleHarvester.model, newName, {
       memory: { role: "harvester" }
     })
   }
@@ -123,10 +88,10 @@ export const loop = ErrorMapper.wrapLoop(() => {
   // ╔═════════════════╗
   // ║ Builder Spawner ║
   // ╚═════════════════╝
-  if (cfgBuilder.current < cfgBuilder.total) {
+  if (RoleBuilder.current < RoleBuilder.total) {
     const newName = `Builder${Game.time}`
     console.log(`Spawning new builder: ${newName}`)
-    Game.spawns.Spawn1.spawnCreep(cfgBuilder.model, newName, {
+    Game.spawns.Spawn1.spawnCreep(RoleBuilder.model, newName, {
       memory: { role: "builder" }
     })
   }
@@ -134,10 +99,10 @@ export const loop = ErrorMapper.wrapLoop(() => {
   // ╔══════════════════╗
   // ║ Upgrader Spawner ║
   // ╚══════════════════╝
-  if (cfgUpgrader.current < cfgUpgrader.total) {
+  if (RoleUpgrader.current < RoleUpgrader.total) {
     const newName = `Upgrader${Game.time}`
     console.log(`Spawning new upgrader: ${newName}`)
-    Game.spawns.Spawn1.spawnCreep(cfgUpgrader.model, newName, {
+    Game.spawns.Spawn1.spawnCreep(RoleUpgrader.model, newName, {
       memory: { role: "upgrader" }
     })
   }
@@ -160,7 +125,8 @@ export const loop = ErrorMapper.wrapLoop(() => {
     const creep = Game.creeps[name]
     switch (creep.memory.role) {
       case "harvester":
-        roleHarvester.run(creep, activated_harvesters, actions, source_harvesters)
+        // roleHarvester.run(creep, cfgHarvester.active, actions, cfgHarvester.source)
+        RoleHarvester.run(creep, restpoint)
         break
       // case 'harvester_external':
       // 	roleHarvesterExternal.run(creep, activated_harvesters);
@@ -169,10 +135,12 @@ export const loop = ErrorMapper.wrapLoop(() => {
       // 	roleHarvesterMineral.run(creep, activated_harvesters);
       // 	break;
       case "upgrader":
-        roleUpgrader.run(creep, activated_upgraders, actions, source_upgraders, "Rest1")
+        // roleUpgrader.run(creep, cfgUpgrader.active, actions, cfgUpgrader.source, "Rest1")
+        RoleUpgrader.run(creep, restpoint)
         break
       case "builder":
-        roleBuilder.run(creep, activated_builders, actions, source_builders, "Rest1")
+        // roleBuilder.run(creep, cfgBuilder.active, actions, cfgBuilder.source, "Rest1")
+        RoleBuilder.run(creep, restpoint)
         break
       // case 'repairer':
       // 	roleRepairer.run(creep, activated_repairers);
