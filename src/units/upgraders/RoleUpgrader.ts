@@ -1,13 +1,14 @@
 import Actions from "utils/Actions"
 
 export default class RoleUpgrader {
+  public static role = "upgrader"
   public static active = false
   public static total = 0
   public static source = 0
   public static model: BodyPartConstant[] = [WORK, CARRY, MOVE]
 
   public static get current(): number {
-    const current_harvesters = _.filter(Game.creeps, creep => creep.memory.role === "harvester")
+    const current_harvesters = _.filter(Game.creeps, creep => creep.memory.role === "upgrader")
     return current_harvesters.length
   }
 
@@ -23,7 +24,7 @@ export default class RoleUpgrader {
       if (creep.memory.upgrading) {
         Actions.upgrade(creep)
       } else {
-        Actions.miner(creep, this.source)
+        Actions.mine(creep, this.source)
       }
     } else {
       Actions.rest(creep, restpoint)

@@ -1,13 +1,14 @@
 import Actions from "utils/Actions"
 
 export default class RoleBuilder {
+  public static role = "builder"
   public static active = false
   public static total = 0
   public static source = 0
   public static model: BodyPartConstant[] = [WORK, CARRY, MOVE]
 
   public static get current(): number {
-    const current_harvesters = _.filter(Game.creeps, creep => creep.memory.role === "harvester")
+    const current_harvesters = _.filter(Game.creeps, creep => creep.memory.role === "builder")
     return current_harvesters.length
   }
 
@@ -23,7 +24,7 @@ export default class RoleBuilder {
       if (creep.memory.building) {
         Actions.build(creep)
       } else {
-        Actions.miner(creep, this.source)
+        Actions.mine(creep, this.source)
       }
     } else {
       Actions.rest(creep, restpoint)

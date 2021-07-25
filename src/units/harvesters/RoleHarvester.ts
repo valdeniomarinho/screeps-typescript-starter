@@ -1,6 +1,7 @@
 import Actions from "utils/Actions"
 
 export default class RoleHarvester {
+  public static role = "harvester"
   public static active = false
   public static total = 0
   public static source = 0
@@ -25,7 +26,7 @@ export default class RoleHarvester {
       })
 
       if (creep.store.getFreeCapacity() > 0 && depots.length) {
-        Actions.miner(creep, this.source)
+        Actions.mine(creep, this.source)
       } else if (!creep.store.getFreeCapacity() && depots.length) {
         Actions.transfer(creep, depots)
       } else {
