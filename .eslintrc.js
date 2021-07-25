@@ -44,7 +44,7 @@ module.exports = {
     ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-parameter-properties": "off",
-    "@typescript-eslint/no-unused-expressions": "error",
+    "@typescript-eslint/no-unused-expressions": "off",
     "@typescript-eslint/no-use-before-define": ["error", { functions: false }],
     "@typescript-eslint/prefer-for-of": "error",
     "@typescript-eslint/space-within-parens": ["off", "never"],
@@ -60,6 +60,7 @@ module.exports = {
     "max-classes-per-file": ["error", 1],
     "new-parens": "off",
     "newline-per-chained-call": "off",
+    "no-unused-vars": "off",
     "no-bitwise": "error",
     "no-caller": "error",
     "no-cond-assign": "error",
@@ -82,7 +83,8 @@ module.exports = {
     "object-shorthand": "error",
     "one-var": ["error", "never"],
     "quote-props": "off",
-    "sort-imports": "warn",
+    "sort-imports": "off",
     "spaced-comment": "error"
   }
 }
+

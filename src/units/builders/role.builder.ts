@@ -1,4 +1,4 @@
-import Actions from "actions/Actions"
+import Actions from "utils/Actions"
 
 const roleBuilder = {
   run(creep: Creep, active: boolean, actions: Actions, source: number, restpoint: string): void {

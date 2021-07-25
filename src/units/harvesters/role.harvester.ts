@@ -1,4 +1,4 @@
-import Actions from "actions/Actions"
+import Actions from "utils/Actions"
 
 const roleHarvester = {
   run(creep: Creep, active: boolean, actions: Actions, source: number): void {

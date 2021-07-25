@@ -1,56 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorMapper } from "utils/ErrorMapper"
-import Actions from "actions/Actions"
-import roleBuilder from "roles/role.builder"
-import roleHarvester from "roles/role.harvester"
-import roleUpgrader from "roles/role.upgrader"
-
-const actions = new Actions()
-
-// ╔══════════════════╗
-// ║ Global Variables ║
-// ╚══════════════════╝
-const activated_harvesters = true
-const activated_harvesters_external = false
-const activated_harvesters_mineral = false
-const activated_builders = true
-const activated_upgraders = true
-const activated_repairers = false
-const activated_notifiers = false
-const activated_attackers = false
-const activated_defenders = false
-const activated_explorers = false
-const activated_claimers = false
-const activated_fillers = false
-
-const spawn_harvester = 1
-const spawn_harvester_external = 0
-const spawn_harvester_mineral = 0
-const spawn_builder = 2
-const spawn_upgrader = 2
-const spawn_repair = 0
-const spawn_notifier = 0
-const spawn_attacker = 0
-const spawn_defender = 0
-const spawn_explorer = 0
-const spawn_claimer = 0
-const spawn_filler = 0
-
-const model_harvesters = [WORK, CARRY, MOVE, MOVE]
-const model_harvesters_external = []
-const model_harvesters_mineral = []
-const model_builders = [WORK, WORK, CARRY, MOVE, MOVE]
-const model_upgraders = [WORK, WORK, CARRY, MOVE]
-const model_repairers = [WORK, WORK, CARRY, MOVE]
-const model_notifiers = []
-const model_attackers = []
-const model_defenders = []
-const model_explorers = []
-const model_claimers = []
-const model_fillers = []
-
-const source_harvesters = 1
-const source_upgraders = 1
-const source_builders = 0
+import Actions from "utils/Actions"
+import Logger from "utils/Logger"
+import roleBuilder from "units/builders/role.builder"
+import roleHarvester from "units/harvesters/role.harvester"
+import roleUpgrader from "units/upgraders/role.upgrader"
+import cfgHarvester from "units/harvesters/cfg.harvester"
+import cfgBuilder from "units/builders/cfg.builder"
+import cfgUpgrader from "units/upgraders/cfg.upgrader"
 
 // INTERFACE #region[magenta]
 //
@@ -75,30 +32,60 @@ declare global {
 }
 // #endregion
 
+// ╔══════════════════╗
+// ║ Global Variables ║
+// ╚══════════════════╝
+
+const activated_harvesters = true // active
+const spawn_harvester = 1 // total
+const model_harvesters = [WORK, WORK, CARRY, MOVE] // model
+const source_harvesters = 1 // source
+
+const activated_upgraders = true
+const spawn_upgrader = 2
+const model_upgraders = [WORK, WORK, CARRY, MOVE]
+const source_upgraders = 1
+
+const activated_builders = true
+const spawn_builder = 2
+const model_builders = [WORK, WORK, CARRY, MOVE]
+const source_builders = 0
+
+const activated_harvesters_external = false
+const activated_harvesters_mineral = false
+const activated_repairers = false
+const activated_notifiers = false
+const activated_attackers = false
+const activated_defenders = false
+const activated_explorers = false
+const activated_claimers = false
+const activated_fillers = false
+
+const spawn_harvester_external = 0
+const spawn_harvester_mineral = 0
+const spawn_repair = 0
+const spawn_notifier = 0
+const spawn_attacker = 0
+const spawn_defender = 0
+const spawn_explorer = 0
+const spawn_claimer = 0
+const spawn_filler = 0
+
+const model_harvesters_external = []
+const model_harvesters_mineral = []
+const model_repairers = [WORK, WORK, CARRY, MOVE]
+const model_notifiers = []
+const model_attackers = []
+const model_defenders = []
+const model_explorers = []
+const model_claimers = []
+const model_fillers = []
+
+const actions = new Actions()
+
 // MAIN #region [blue]
 export const loop = ErrorMapper.wrapLoop(() => {
-  // ╔══════════╗
-  // ║ Watchers ║
-  // ╚══════════╝
-  const total_harvesters = _.filter(Game.creeps, creep => creep.memory.role === "harvester")
-  const total_builders = _.filter(Game.creeps, creep => creep.memory.role === "builder")
-  const total_upgraders = _.filter(Game.creeps, creep => creep.memory.role === "upgrader")
-  const total_repairers = _.filter(Game.creeps, creep => creep.memory.role === "repairer")
-
-  // ╔═════════╗
-  // ║ Loggers ║
-  // ╚═════════╝
-  for (const name in Game.rooms) {
-    console.log(`╔════════════════════════════════════════════════`)
-    console.log(`║─┤Room "${name}" Tick ${Game.time}`)
-    console.log(`║─┤Total Energy: ${Game.rooms[name].energyAvailable}`)
-    console.log(`║─┤Slots per Creep: ${Math.floor(Game.rooms[name].energyAvailable / 50)}`)
-    console.log(`║─┤⛏️ Harvesters: ${total_harvesters.length}`)
-    console.log(`║─┤🔨 Builders: ${total_builders.length} `)
-    console.log(`║─┤🔺 Upgraders: ${total_upgraders.length}`)
-    console.log(`║─┤🔧 Repairers: ${total_repairers.length}`)
-    console.log(`╚════════════════════════════════════════════════`)
-  }
+  Logger.print()
 
   // ╔════════════════╗
   // ║ Memory Cleaner ║
@@ -125,10 +112,10 @@ export const loop = ErrorMapper.wrapLoop(() => {
   // ╔═══════════════════╗
   // ║ Harvester Spawner ║
   // ╚═══════════════════╝
-  if (total_harvesters.length < spawn_harvester) {
+  if (cfgHarvester.current < cfgHarvester.total) {
     const newName = `Harvester${Game.time}`
     console.log(`Spawning new harvester: ${newName}`)
-    Game.spawns.Spawn1.spawnCreep(model_harvesters, newName, {
+    Game.spawns.Spawn1.spawnCreep(cfgHarvester.model, newName, {
       memory: { role: "harvester" }
     })
   }
@@ -136,10 +123,10 @@ export const loop = ErrorMapper.wrapLoop(() => {
   // ╔═════════════════╗
   // ║ Builder Spawner ║
   // ╚═════════════════╝
-  if (total_builders.length < spawn_builder) {
+  if (cfgBuilder.current < cfgBuilder.total) {
     const newName = `Builder${Game.time}`
     console.log(`Spawning new builder: ${newName}`)
-    Game.spawns.Spawn1.spawnCreep(model_builders, newName, {
+    Game.spawns.Spawn1.spawnCreep(cfgBuilder.model, newName, {
       memory: { role: "builder" }
     })
   }
@@ -147,10 +134,10 @@ export const loop = ErrorMapper.wrapLoop(() => {
   // ╔══════════════════╗
   // ║ Upgrader Spawner ║
   // ╚══════════════════╝
-  if (total_upgraders.length < spawn_upgrader) {
+  if (cfgUpgrader.current < cfgUpgrader.total) {
     const newName = `Upgrader${Game.time}`
     console.log(`Spawning new upgrader: ${newName}`)
-    Game.spawns.Spawn1.spawnCreep(model_upgraders, newName, {
+    Game.spawns.Spawn1.spawnCreep(cfgUpgrader.model, newName, {
       memory: { role: "upgrader" }
     })
   }
@@ -158,13 +145,13 @@ export const loop = ErrorMapper.wrapLoop(() => {
   // ╔══════════════════╗
   // ║ Repairer Spawner ║
   // ╚══════════════════╝
-  if (total_repairers.length < spawn_repair) {
-    const newName = `Repairer${Game.time}`
-    console.log(`Spawning new repairer: ${newName}`)
-    Game.spawns.Spawn1.spawnCreep(model_repairers, newName, {
-      memory: { role: "repairer" }
-    })
-  }
+  // if (total_repairers.length < spawn_repair) {
+  //   const newName = `Repairer${Game.time}`
+  //   console.log(`Spawning new repairer: ${newName}`)
+  //   Game.spawns.Spawn1.spawnCreep(model_repairers, newName, {
+  //     memory: { role: "repairer" }
+  //   })
+  // }
 
   // ╔═════════════════╗
   // ║ Role Assignment ║
