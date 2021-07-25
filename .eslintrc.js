@@ -29,6 +29,9 @@ module.exports = {
     }
   },
   rules: {
+    camelcase: "off",
+    complexity: "off",
+    radix: "error",
     "@typescript-eslint/array-type": "error",
     "@typescript-eslint/consistent-type-assertions": "error",
     "@typescript-eslint/consistent-type-definitions": "error",
@@ -47,8 +50,6 @@ module.exports = {
     "@typescript-eslint/space-within-parens": ["off", "never"],
     "@typescript-eslint/unified-signatures": "error",
     "arrow-parens": ["off", "as-needed"],
-    camelcase: "error",
-    complexity: "off",
     "dot-notation": "error",
     "eol-last": "off",
     eqeqeq: ["error", "smart"],
@@ -81,8 +82,7 @@ module.exports = {
     "object-shorthand": "error",
     "one-var": ["error", "never"],
     "quote-props": "off",
-    radix: "error",
     "sort-imports": "warn",
-    "spaced-comment": "error",
+    "spaced-comment": "error"
   }
-};
+}

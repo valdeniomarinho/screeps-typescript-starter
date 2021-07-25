@@ -17,7 +17,8 @@
     "watch-main": "rollup -cw --environment DEST:main",
     "watch-pserver": "rollup -cw --environment DEST:pserver",
     "watch-season": "rollup -cw --environment DEST:season",
-    "watch-sim": "rollup -cw --environment DEST:sim"
+    "watch-sim": "rollup -cw --environment DEST:sim",
+    "lalala": "prettier --write \"*.ts\""
   },
   "repository": {
     "type": "git",
