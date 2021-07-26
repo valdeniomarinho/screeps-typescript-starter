@@ -22,6 +22,22 @@ export default class Actions {
     }
   }
 
+  public static repair = (creep: Creep): void => {
+    const damagedStructures = creep.room.find(FIND_STRUCTURES, {
+      filter: structure => structure.hits < structure.hitsMax
+    })
+
+    if (damagedStructures.length) {
+      damagedStructures.map(structure => {
+        if (creep.repair(structure) === ERR_NOT_IN_RANGE) {
+          creep.moveTo(structure, {
+            visualizePathStyle: { stroke: "#ffffff" }
+          })
+        }
+      })
+    }
+  }
+
   public static rest = (creep: Creep, flagName: string): void => {
     creep.say("💤")
     creep.moveTo(Game.flags[flagName].pos, {

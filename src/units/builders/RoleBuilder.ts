@@ -13,7 +13,9 @@ export default class RoleBuilder {
   }
 
   public static run(creep: Creep, restpoint: string): void {
-    if (this.active) {
+    const hasConstructionSites = creep.room.find(FIND_CONSTRUCTION_SITES)
+
+    if (this.active && hasConstructionSites.length) {
       if (creep.memory.building && creep.store[RESOURCE_ENERGY] === 0) {
         creep.memory.building = false
       }

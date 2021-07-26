@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorMapper } from "utils/ErrorMapper"
+import { roleAssigner } from "utils/Functions"
 import Logger from "utils/Logger"
 import Spawner from "structures/spawners/Spawner"
 import RoleHarvester from "units/harvesters/RoleHarvester"
 import RoleUpgrader from "units/upgraders/RoleUpgrader"
 import RoleBuilder from "units/builders/RoleBuilder"
+import RoleRepairer from "units/repairers/RoleRepairer"
 
 // INTERFACE #region[magenta]
 //
@@ -17,6 +19,16 @@ declare global {
 
   interface CreepMemory {
     [name: string]: string | number | boolean
+  }
+
+  interface UnitRole {
+    role: string
+    active: boolean
+    total: number
+    source: number
+    model: BodyPartConstant[]
+    run: any
+    current: any
   }
 
   // Syntax for adding proprties to `global` (ex "global.log")
@@ -65,43 +77,53 @@ export const loop = ErrorMapper.wrapLoop(() => {
   // ╚═══════╝
   RoleHarvester.active = true
   RoleHarvester.total = 1
-  RoleHarvester.model = [WORK, CARRY, MOVE]
+  RoleHarvester.model = [MOVE, MOVE, MOVE, WORK, WORK, WORK, CARRY]
   RoleHarvester.source = 0
 
   RoleUpgrader.active = true
-  RoleUpgrader.total = 1
-  RoleUpgrader.model = [MOVE, WORK, WORK, WORK, WORK, CARRY]
-  RoleUpgrader.source = 0
+  RoleUpgrader.total = 4
+  RoleUpgrader.model = [MOVE, MOVE, MOVE, WORK, WORK, WORK, CARRY]
+  RoleUpgrader.source = 1
 
   RoleBuilder.active = true
-  RoleBuilder.total = 4
-  RoleBuilder.model = [WORK, CARRY, MOVE]
-  RoleBuilder.source = 1
+  RoleBuilder.total = 1
+  RoleBuilder.model = [MOVE, MOVE, MOVE, WORK, WORK, WORK, CARRY]
+  RoleBuilder.source = 0
+
+  RoleRepairer.active = true
+  RoleRepairer.total = 1
+  RoleRepairer.model = [MOVE, MOVE, MOVE, WORK, WORK, WORK, CARRY]
+  RoleRepairer.source = 0
 
   // ╔══════════╗
   // ║ Spawners ║
   // ╚══════════╝
   Spawner.run(RoleHarvester.total, RoleHarvester.current, RoleHarvester.role, RoleHarvester.model)
-  Spawner.run(RoleBuilder.total, RoleBuilder.current, RoleBuilder.role, RoleBuilder.model)
   Spawner.run(RoleUpgrader.total, RoleUpgrader.current, RoleUpgrader.role, RoleUpgrader.model)
+  Spawner.run(RoleBuilder.total, RoleBuilder.current, RoleBuilder.role, RoleBuilder.model)
+  Spawner.run(RoleRepairer.total, RoleRepairer.current, RoleRepairer.role, RoleRepairer.model)
 
   // ╔═══════════════╗
   // ║ Role Assigner ║
   // ╚═══════════════╝
-  for (const name in Game.creeps) {
-    const creep = Game.creeps[name]
-    switch (creep.memory.role) {
-      case "harvester":
-        RoleHarvester.run(creep, restpoint)
-        break
-      case "upgrader":
-        RoleUpgrader.run(creep, restpoint)
-        break
-      case "builder":
-        RoleBuilder.run(creep, restpoint)
-        break
-    }
-  }
+  roleAssigner(restpoint)
+  // for (const name in Game.creeps) {
+  //   const creep = Game.creeps[name]
+  //   switch (creep.memory.role) {
+  //     case "harvester":
+  //       RoleHarvester.run(creep, restpoint)
+  //       break
+  //     case "upgrader":
+  //       RoleUpgrader.run(creep, restpoint)
+  //       break
+  //     case "builder":
+  //       RoleBuilder.run(creep, restpoint)
+  //       break
+  //     case "repairer":
+  //       RoleRepairer.run(creep, restpoint)
+  //       break
+  //   }
+  // }
 
   // ╔══════════════════╗
   // ║ Tower Management ║
