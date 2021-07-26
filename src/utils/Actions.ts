@@ -30,9 +30,7 @@ export default class Actions {
     if (damagedStructures.length) {
       damagedStructures.map(structure => {
         if (creep.repair(structure) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(structure, {
-            visualizePathStyle: { stroke: "#ffffff" }
-          })
+          creep.moveTo(structure)
         }
       })
     }

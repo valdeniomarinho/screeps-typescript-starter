@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorMapper } from "utils/ErrorMapper"
-import { roleAssigner } from "utils/Functions"
-import Logger from "utils/Logger"
+import { Logger, RoleAssigner } from "utils"
 import Spawner from "structures/spawners/Spawner"
 import RoleHarvester from "units/harvesters/RoleHarvester"
 import RoleUpgrader from "units/upgraders/RoleUpgrader"
@@ -43,7 +42,7 @@ declare global {
 
 // MAIN #region [blue]
 export const loop = ErrorMapper.wrapLoop(() => {
-  Logger.print()
+  Logger.run()
 
   // ╔════════════════╗
   // ║ Memory Cleaner ║
@@ -76,7 +75,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
   // ║ Units ║
   // ╚═══════╝
   RoleHarvester.active = true
-  RoleHarvester.total = 1
+  RoleHarvester.total = 2
   RoleHarvester.model = [MOVE, MOVE, MOVE, WORK, WORK, WORK, CARRY]
   RoleHarvester.source = 0
 
@@ -91,7 +90,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
   RoleBuilder.source = 0
 
   RoleRepairer.active = true
-  RoleRepairer.total = 1
+  RoleRepairer.total = 3
   RoleRepairer.model = [MOVE, MOVE, MOVE, WORK, WORK, WORK, CARRY]
   RoleRepairer.source = 0
 
@@ -106,7 +105,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
   // ╔═══════════════╗
   // ║ Role Assigner ║
   // ╚═══════════════╝
-  roleAssigner(restpoint)
+  RoleAssigner.run(restpoint)
   // for (const name in Game.creeps) {
   //   const creep = Game.creeps[name]
   //   switch (creep.memory.role) {
