@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorMapper } from "utils/ErrorMapper"
 import Logger from "utils/Logger"
-import Spawner from "structures/Spawner"
+import Spawner from "structures/spawners/Spawner"
 import RoleHarvester from "units/harvesters/RoleHarvester"
 import RoleUpgrader from "units/upgraders/RoleUpgrader"
 import RoleBuilder from "units/builders/RoleBuilder"
@@ -69,14 +69,14 @@ export const loop = ErrorMapper.wrapLoop(() => {
   RoleHarvester.source = 0
 
   RoleUpgrader.active = true
-  RoleUpgrader.total = 3
-  RoleUpgrader.model = [WORK, CARRY, MOVE]
-  RoleUpgrader.source = 1
+  RoleUpgrader.total = 1
+  RoleUpgrader.model = [MOVE, WORK, WORK, WORK, WORK, CARRY]
+  RoleUpgrader.source = 0
 
   RoleBuilder.active = true
-  RoleBuilder.total = 2
+  RoleBuilder.total = 4
   RoleBuilder.model = [WORK, CARRY, MOVE]
-  RoleBuilder.source = 0
+  RoleBuilder.source = 1
 
   // ╔══════════╗
   // ║ Spawners ║

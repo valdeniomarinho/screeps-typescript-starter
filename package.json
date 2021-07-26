@@ -10,6 +10,7 @@
     "push-main": "rollup -c --environment DEST:main",
     "push-pserver": "rollup -c --environment DEST:pserver",
     "push-splus": "rollup -c --environment DEST:splus",
+    "push-gohorse": "rollup -c --environment DEST:gohorse",
     "push-season": "rollup -c --environment DEST:season",
     "push-sim": "rollup -c --environment DEST:sim",
     "test": "npm run test-unit",
