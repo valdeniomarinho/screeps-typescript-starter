@@ -1,17 +1,32 @@
 export default class Spawner {
-  public static run(total: number, current: number, role: string, model: BodyPartConstant[]): void {
+  public static run(
+    total: number,
+    current: number,
+    role: string,
+    model: BodyPartConstant[]
+  ): void {
     const newName = `${role}${Game.time}`
 
     if (
       current < total &&
-      Game.spawns.Spawn1.spawnCreep(model, newName, {
-        memory: { role }
-      }) === -6
+      Game.spawns.Spawn1.spawnCreep(
+        model,
+        newName,
+        {
+          memory: { role }
+        }
+      ) === -6
     ) {
-      console.log(`Spawning new ${role}: ${newName}`)
-      Game.spawns.Spawn1.spawnCreep([WORK, CARRY, MOVE], newName, {
-        memory: { role }
-      })
+      console.log(
+        `Spawning new ${role}: ${newName}`
+      )
+      Game.spawns.Spawn1.spawnCreep(
+        [WORK, CARRY, MOVE],
+        newName,
+        {
+          memory: { role }
+        }
+      )
     }
   }
 }
