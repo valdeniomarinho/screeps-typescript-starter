@@ -138,9 +138,9 @@ export const loop = ErrorMapper.wrapLoop(() => {
   RoleAssigner.run(restpoint)
 
   // Tick Functions
-  Logger.run(timeCpuStart)
-  Notifier.run()
   MemoryCleaner.run()
+  Notifier.run()
+  Logger.run(timeCpuStart)
 
   // ⚠️ TESTING ZONE ⚠️
   ;(() => {
@@ -150,10 +150,6 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
     if (selected.length) {
       selected.forEach(structure => {
-        // Game.rooms[structure.room].getPositionAt(
-        //   structure.pos
-        // )
-
         new RoomVisual(
           structure.room.name
         ).circle(structure.pos, {
@@ -161,12 +157,6 @@ export const loop = ErrorMapper.wrapLoop(() => {
           radius: TOWER_OPTIMAL_RANGE,
           stroke: "red"
         })
-
-        // Game.map.visual.circle(structure.pos, {
-        //   fill: "transparent",
-        //   radius: 10,
-        //   stroke: "#FF00FF"
-        // })
       })
     }
   })()
