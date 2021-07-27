@@ -17,7 +17,7 @@ export class MemoryCleaner {
 }
 
 export class Logger {
-  public static run(): void {
+  public static run(timeCpuStart: number): void {
     const currentHarvesters = _.filter(
       Game.creeps,
       creep => creep.memory.role === "harvester"
@@ -34,11 +34,22 @@ export class Logger {
       Game.creeps,
       creep => creep.memory.role === "repairer"
     )
+    const totalCreeps =
+      currentBuilders.length +
+      currentHarvesters.length +
+      currentRepairers.length +
+      currentUpgraders.length
+
+    const exeTime = Math.floor(
+      Game.cpu.getUsed() - timeCpuStart
+    )
+    const cpuLimit = Game.cpu.tickLimit
 
     for (const name in Game.rooms) {
       console.log(
         `╔════════════════════════════════════════════════`
       )
+      console.log(`║─┤CPU ${exeTime}/${cpuLimit}`)
       console.log(
         `║─┤Room "${name}" Tick ${Game.time}`
       )
@@ -46,9 +57,7 @@ export class Logger {
         `║─┤Total Energy: ${Game.rooms[name].energyAvailable}`
       )
       console.log(
-        `║─┤Slots per Creep: ${Math.floor(
-          Game.rooms[name].energyAvailable / 50
-        )}`
+        `║─┤Total Creeps: ${totalCreeps}`
       )
       console.log(
         `║─┤${currentHarvesters.length}/${RoleHarvester.total} ⛏️ Harvesters`

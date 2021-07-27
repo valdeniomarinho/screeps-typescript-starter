@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-useless-escape */
 import { SourceMapConsumer } from "source-map"
 
 export class ErrorMapper {

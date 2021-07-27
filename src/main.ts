@@ -6,6 +6,7 @@ import {
   RoleAssigner,
   MemoryCleaner
 } from "utils"
+import { getStructure } from "utils/Snippets"
 import Spawner from "structures/spawners/Spawner"
 import RoleHarvester from "units/harvesters/RoleHarvester"
 import RoleUpgrader from "units/upgraders/RoleUpgrader"
@@ -45,18 +46,16 @@ declare global {
 
 // MAIN #region [blue]
 export const loop = ErrorMapper.wrapLoop(() => {
+  // EXE Time Tracking
+  const timeCpuStart = Game.cpu.getUsed()
+
   // Positions
   const restpoint = "Rest1"
-
-  // Features
-  Logger.run()
-  Notifier.run()
-  RoleAssigner.run(restpoint)
-  MemoryCleaner.run()
 
   // Units
   RoleHarvester.active = true
   RoleHarvester.total = 2
+  RoleHarvester.source = 0
   RoleHarvester.model = [
     MOVE,
     MOVE,
@@ -64,12 +63,13 @@ export const loop = ErrorMapper.wrapLoop(() => {
     WORK,
     WORK,
     WORK,
+    CARRY,
     CARRY
   ]
-  RoleHarvester.source = 0
 
   RoleUpgrader.active = true
   RoleUpgrader.total = 4
+  RoleUpgrader.source = 1
   RoleUpgrader.model = [
     MOVE,
     MOVE,
@@ -77,12 +77,13 @@ export const loop = ErrorMapper.wrapLoop(() => {
     WORK,
     WORK,
     WORK,
+    CARRY,
     CARRY
   ]
-  RoleUpgrader.source = 1
 
   RoleBuilder.active = true
-  RoleBuilder.total = 1
+  RoleBuilder.total = 3
+  RoleBuilder.source = 0
   RoleBuilder.model = [
     MOVE,
     MOVE,
@@ -90,12 +91,13 @@ export const loop = ErrorMapper.wrapLoop(() => {
     WORK,
     WORK,
     WORK,
+    CARRY,
     CARRY
   ]
-  RoleBuilder.source = 0
 
   RoleRepairer.active = true
-  RoleRepairer.total = 3
+  RoleRepairer.total = 1
+  RoleRepairer.source = 0
   RoleRepairer.model = [
     MOVE,
     MOVE,
@@ -103,12 +105,11 @@ export const loop = ErrorMapper.wrapLoop(() => {
     WORK,
     WORK,
     WORK,
+    CARRY,
     CARRY
   ]
-  RoleRepairer.source = 0
 
   // Spawners
-
   Spawner.run(
     RoleHarvester.total,
     RoleHarvester.current,
@@ -133,5 +134,41 @@ export const loop = ErrorMapper.wrapLoop(() => {
     RoleRepairer.role,
     RoleRepairer.model
   )
+
+  RoleAssigner.run(restpoint)
+
+  // Tick Functions
+  Logger.run(timeCpuStart)
+  Notifier.run()
+  MemoryCleaner.run()
+
+  // ⚠️ TESTING ZONE ⚠️
+  ;(() => {
+    const selected = getStructure(STRUCTURE_TOWER)
+
+    if (selected === undefined) return
+
+    if (selected.length) {
+      selected.forEach(structure => {
+        // Game.rooms[structure.room].getPositionAt(
+        //   structure.pos
+        // )
+
+        new RoomVisual(
+          structure.room.name
+        ).circle(structure.pos, {
+          fill: "transparent",
+          radius: TOWER_OPTIMAL_RANGE,
+          stroke: "red"
+        })
+
+        // Game.map.visual.circle(structure.pos, {
+        //   fill: "transparent",
+        //   radius: 10,
+        //   stroke: "#FF00FF"
+        // })
+      })
+    }
+  })()
 })
 // #endregion

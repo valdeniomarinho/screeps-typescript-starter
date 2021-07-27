@@ -61,7 +61,6 @@ export default class Actions {
     creep: Creep,
     flagName: string
   ): void => {
-    creep.say("💤")
     creep.moveTo(Game.flags[flagName].pos, {
       visualizePathStyle: { stroke: "#00ffff" }
     })

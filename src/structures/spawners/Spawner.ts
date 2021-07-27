@@ -17,9 +17,8 @@ export default class Spawner {
         }
       ) === -6
     ) {
-      console.log(
-        `Spawning new ${role}: ${newName}`
-      )
+      console.log(`Trying to Spawn: ${newName}`)
+
       Game.spawns.Spawn1.spawnCreep(
         [WORK, CARRY, MOVE],
         newName,
