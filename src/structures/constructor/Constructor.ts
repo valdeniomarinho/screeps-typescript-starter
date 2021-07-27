@@ -7,9 +7,7 @@ interface BuildingOrder {
 }
 
 export default class Constructor {
-  public static build(
-    buildingOrder: BuildingOrder
-  ): void {
+  public static build(buildingOrder: BuildingOrder): void {
     const roomName = `W${buildingOrder.wPos}N${buildingOrder.nPos}`
 
     Game.rooms[roomName].createConstructionSite(

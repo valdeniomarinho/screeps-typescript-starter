@@ -7,9 +7,7 @@ export class MemoryCleaner {
   public static run(): void {
     for (const name in Memory.creeps) {
       if (!Game.creeps[name]) {
-        console.log(
-          `Clearing non-existing creep memory: ${name}`
-        )
+        console.log(`Clearing non-existing creep memory: ${name}`)
         delete Memory.creeps[name]
       }
     }
@@ -18,62 +16,30 @@ export class MemoryCleaner {
 
 export class Logger {
   public static run(timeCpuStart: number): void {
-    const currentHarvesters = _.filter(
-      Game.creeps,
-      creep => creep.memory.role === "harvester"
-    )
-    const currentBuilders = _.filter(
-      Game.creeps,
-      creep => creep.memory.role === "builder"
-    )
-    const currentUpgraders = _.filter(
-      Game.creeps,
-      creep => creep.memory.role === "upgrader"
-    )
-    const currentRepairers = _.filter(
-      Game.creeps,
-      creep => creep.memory.role === "repairer"
-    )
+    const currentHarvesters = _.filter(Game.creeps, creep => creep.memory.role === "harvester")
+    const currentBuilders = _.filter(Game.creeps, creep => creep.memory.role === "builder")
+    const currentUpgraders = _.filter(Game.creeps, creep => creep.memory.role === "upgrader")
+    const currentRepairers = _.filter(Game.creeps, creep => creep.memory.role === "repairer")
     const totalCreeps =
       currentBuilders.length +
       currentHarvesters.length +
       currentRepairers.length +
       currentUpgraders.length
 
-    const exeTime = Math.floor(
-      Game.cpu.getUsed() - timeCpuStart
-    )
+    const exeTime = Math.floor(Game.cpu.getUsed() - timeCpuStart)
     const cpuLimit = Game.cpu.tickLimit
 
     for (const name in Game.rooms) {
-      console.log(
-        `╔════════════════════════════════════════════════`
-      )
+      console.log(`╔════════════════════════════════════════════════`)
       console.log(`║─┤CPU ${exeTime}/${cpuLimit}`)
-      console.log(
-        `║─┤Room "${name}" Tick ${Game.time}`
-      )
-      console.log(
-        `║─┤Total Energy: ${Game.rooms[name].energyAvailable}`
-      )
-      console.log(
-        `║─┤Total Creeps: ${totalCreeps}`
-      )
-      console.log(
-        `║─┤${currentHarvesters.length}/${RoleHarvester.total} ⛏️ Harvesters`
-      )
-      console.log(
-        `║─┤${currentBuilders.length}/${RoleBuilder.total} 🔨 Builders`
-      )
-      console.log(
-        `║─┤${currentUpgraders.length}/${RoleUpgrader.total} ➕ Upgraders`
-      )
-      console.log(
-        `║─┤${currentRepairers.length}/${RoleRepairer.total} 🔧 Repairers`
-      )
-      console.log(
-        `╚════════════════════════════════════════════════`
-      )
+      console.log(`║─┤Room "${name}" Tick ${Game.time}`)
+      console.log(`║─┤Total Energy: ${Game.rooms[name].energyAvailable}`)
+      console.log(`║─┤Total Creeps: ${totalCreeps}`)
+      console.log(`║─┤${currentHarvesters.length}/${RoleHarvester.total} ⛏️ Harvesters`)
+      console.log(`║─┤${currentBuilders.length}/${RoleBuilder.total} 🔨 Builders`)
+      console.log(`║─┤${currentUpgraders.length}/${RoleUpgrader.total} ➕ Upgraders`)
+      console.log(`║─┤${currentRepairers.length}/${RoleRepairer.total} 🔧 Repairers`)
+      console.log(`╚════════════════════════════════════════════════`)
     }
   }
 }
@@ -104,9 +70,7 @@ export class Notifier {
   public static run(): void {
     // get spawning creeps
 
-    const spawningCreeps = Object.keys(
-      Game.spawns
-    )
+    const spawningCreeps = Object.keys(Game.spawns)
       .filter(name => Game.spawns[name].spawning)
       .map(name => Game.spawns[name].spawning)
 
@@ -114,9 +78,7 @@ export class Notifier {
       if (spawningCreep !== null) {
         const msg = `Spawning: ${spawningCreep.name}`
 
-        const spawnName = String(
-          spawningCreep.spawn.name
-        )
+        const spawnName = String(spawningCreep.spawn.name)
 
         Game.spawns[spawnName].room.visual.text(
           msg,
