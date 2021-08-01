@@ -6,7 +6,7 @@ export default class Spawner {
       current < total &&
       Game.spawns.Spawn1.spawnCreep(model, newName, {
         memory: { role }
-      }) === -6
+      }) === ERR_NOT_ENOUGH_ENERGY
     ) {
       console.log(`Trying to Spawn: ${newName}`)
 

@@ -1,4 +1,4 @@
-function getStructure(type: string): AnyStructure[] | undefined {
+function getStructures(type: string): AnyStructure[] | undefined {
   let myStructures
 
   for (const name in Game.rooms) {
@@ -12,4 +12,4 @@ function getStructure(type: string): AnyStructure[] | undefined {
   return myStructures
 }
 
-export { getStructure }
+export { getStructures }

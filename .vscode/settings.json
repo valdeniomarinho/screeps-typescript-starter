@@ -1,28 +1,45 @@
 {
-    "[javascript]": {
-        "editor.formatOnSave": false
-    },
-    "[json]": {
-        "editor.formatOnSave": true
-    },
-    "[typescript]": {
-        "editor.formatOnSave": false
-    },
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    },
-    "editor.formatOnSave": true,
-    "editor.renderWhitespace": "boundary",
-    "files.encoding": "utf8",
-    "files.insertFinalNewline": true,
-    "files.trimTrailingWhitespace": true,
-    "search.exclude": {
-        "_book/**": true,
-        ".rpt2_cache/**": true,
-        "dist/**": true,
-        "node_modules/**": true,
-        "typings/**": true
-    },
-    "typescript.tsdk": "./node_modules/typescript/lib",
-    "eslint.enable": true
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "[json]": {
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.formatOnSave": false
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true,
+  "editor.renderWhitespace": "boundary",
+  "files.encoding": "utf8",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "search.exclude": {
+    "_book/**": true,
+    ".rpt2_cache/**": true,
+    "dist/**": true,
+    "node_modules/**": true,
+    "typings/**": true
+  },
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "eslint.enable": true,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#29293f",
+    "activityBar.activeBorder": "#875858",
+    "activityBar.background": "#29293f",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#875858",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "statusBar.background": "#151520",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#29293f",
+    "titleBar.activeBackground": "#151520",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#15152099",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#151520"
 }

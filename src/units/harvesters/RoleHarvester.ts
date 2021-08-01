@@ -4,7 +4,7 @@ export default class RoleHarvester {
   public static role = "harvester"
   public static active = false
   public static total = 0
-  public static source = 0
+
   public static model: BodyPartConstant[] = [WORK, CARRY, MOVE]
 
   public static get current(): number {
@@ -13,25 +13,12 @@ export default class RoleHarvester {
   }
 
   public static run(creep: Creep, restpoint: string): void {
-    const depots = creep.room.find(FIND_STRUCTURES, {
-      filter: structure => {
-        return (
-          (structure.structureType === STRUCTURE_EXTENSION ||
-            structure.structureType === STRUCTURE_SPAWN ||
-            structure.structureType === STRUCTURE_TOWER) &&
-          structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
-        )
-      }
-    })
+    creep.memory.restpoint = restpoint
 
-    if (this.active && depots.length) {
-      if (creep.store.getFreeCapacity() > 0) {
-        Actions.mine(creep, this.source)
-      } else {
-        Actions.transfer(creep, depots)
-      }
+    if (this.active) {
+      Actions.mine(creep)
     } else {
-      Actions.rest(creep, restpoint)
+      Actions.rest(creep)
     }
   }
 }

@@ -2,6 +2,7 @@ import RoleBuilder from "units/builders/RoleBuilder"
 import RoleHarvester from "units/harvesters/RoleHarvester"
 import RoleRepairer from "units/repairers/RoleRepairer"
 import RoleUpgrader from "units/upgraders/RoleUpgrader"
+import RoleHauler from "units/haulers/RoleHauler"
 
 export class MemoryCleaner {
   public static run(): void {
@@ -16,18 +17,20 @@ export class MemoryCleaner {
 
 export class Logger {
   public static run(timeCpuStart: number): void {
+    const exeTime = Math.floor(Game.cpu.getUsed() - timeCpuStart)
+    const cpuLimit = Game.cpu.tickLimit
+
     const currentHarvesters = _.filter(Game.creeps, creep => creep.memory.role === "harvester")
     const currentBuilders = _.filter(Game.creeps, creep => creep.memory.role === "builder")
     const currentUpgraders = _.filter(Game.creeps, creep => creep.memory.role === "upgrader")
     const currentRepairers = _.filter(Game.creeps, creep => creep.memory.role === "repairer")
+    const currentHaulers = _.filter(Game.creeps, creep => creep.memory.role === "hauler")
     const totalCreeps =
       currentBuilders.length +
       currentHarvesters.length +
       currentRepairers.length +
-      currentUpgraders.length
-
-    const exeTime = Math.floor(Game.cpu.getUsed() - timeCpuStart)
-    const cpuLimit = Game.cpu.tickLimit
+      currentUpgraders.length +
+      currentHaulers.length
 
     for (const name in Game.rooms) {
       console.log(`╔════════════════════════════════════════════════`)
@@ -39,6 +42,7 @@ export class Logger {
       console.log(`║─┤${currentBuilders.length}/${RoleBuilder.total} 🔨 Builders`)
       console.log(`║─┤${currentUpgraders.length}/${RoleUpgrader.total} ➕ Upgraders`)
       console.log(`║─┤${currentRepairers.length}/${RoleRepairer.total} 🔧 Repairers`)
+      console.log(`║─┤${currentHaulers.length}/${RoleHauler.total} 🚛 Haulers`)
       console.log(`╚════════════════════════════════════════════════`)
     }
   }
@@ -60,6 +64,9 @@ export class RoleAssigner {
           break
         case "repairer":
           RoleRepairer.run(creep, restpoint)
+          break
+        case "hauler":
+          RoleHauler.run(creep, restpoint)
           break
       }
     }

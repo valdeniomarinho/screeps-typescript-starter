@@ -1,8 +1,8 @@
-import { getStructure } from "utils/Snippets"
+import { getStructures } from "utils/Snippets"
 
 export default class Tower {
   public static run(): void {
-    const towers = getStructure(STRUCTURE_TOWER)
+    const towers = getStructures(STRUCTURE_TOWER)
 
     if (towers !== undefined) {
       towers.forEach((anyStructure: AnyStructure) => {

@@ -3,8 +3,8 @@ export const Game = {
   rooms: [],
   spawns: {},
   time: 12345
-};
+}
 
 export const Memory = {
   creeps: []
-};
+}

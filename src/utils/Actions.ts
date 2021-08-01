@@ -13,14 +13,79 @@ export default class Actions {
     }
   }
 
-  public static mine = (creep: Creep, source: number): void => {
+  public static loadEnergy = (creep: Creep): void => {
+    // const energyDropped = creep.room.find(FIND_DROPPED_RESOURCES)
+
+    const energyTombstones = creep.room.find(FIND_TOMBSTONES, {
+      filter: tombstone => {
+        return tombstone.store.getUsedCapacity(RESOURCE_ENERGY) > 0
+      }
+    })
+
+    const energyRuins = creep.room.find(FIND_RUINS, {
+      filter: ruin => {
+        return ruin.store.getUsedCapacity(RESOURCE_ENERGY) > 0
+      }
+    })
+
+    const energyDepots = creep.room.find(FIND_STRUCTURES, {
+      filter: structure => {
+        return (
+          structure.structureType === STRUCTURE_CONTAINER &&
+          structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0
+        )
+      }
+    })
+
+    const energyPlaces = [...energyTombstones, ...energyRuins, ...energyDepots]
+
+    if (energyPlaces.length) {
+      if (creep.withdraw(energyPlaces[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(energyPlaces[0], {
+          reusePath: 5,
+          visualizePathStyle: { stroke: "#88882b" }
+        })
+      }
+    }
+
+    const dropped = creep.room.find(FIND_DROPPED_RESOURCES)
+
+    if (dropped.length) {
+      if (creep.pickup(dropped[0]) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(dropped[0], {
+          reusePath: 5,
+          visualizePathStyle: { stroke: "#88882b" }
+        })
+      }
+    }
+
+    if (energyPlaces.length === 0 && dropped.length === 0) {
+      Actions.rest(creep)
+    }
+  }
+
+  public static mine = (creep: Creep): void => {
     const energySources = creep.room.find(FIND_SOURCES)
 
-    // && creep.harvest(energySources[0]) !== ERR_NO_PATH ??
-    if (creep.harvest(energySources[source]) === ERR_NOT_IN_RANGE) {
-      creep.moveTo(energySources[source], {
-        visualizePathStyle: { stroke: "#ffffff" }
-      })
+    energySources.forEach(src => {
+      if (creep.harvest(src) !== ERR_NOT_ENOUGH_RESOURCES) {
+        if (creep.moveTo(src) !== ERR_NO_PATH) creep.memory.sourceId = src.id
+      }
+    })
+
+    const sourceId = Game.getObjectById(creep.memory.sourceId as Id<Source>)
+
+    if (creep.memory.sourceId) {
+      if (sourceId !== null) {
+        if (creep.harvest(sourceId) === ERR_NOT_IN_RANGE) {
+          creep.moveTo(sourceId, {
+            reusePath: 5,
+            visualizePathStyle: { stroke: "#88882b" }
+          })
+        }
+      }
+    } else {
+      console.log(creep.name, ": No sources werent found!")
     }
   }
 
@@ -38,17 +103,32 @@ export default class Actions {
     }
   }
 
-  public static rest = (creep: Creep, flagName: string): void => {
-    creep.moveTo(Game.flags[flagName].pos, {
+  public static rest = (creep: Creep): void => {
+    creep.moveTo(Game.flags[creep.memory.restpoint as string].pos, {
       visualizePathStyle: { stroke: "#00ffff" }
     })
   }
 
-  public static transfer = (creep: Creep, destination: Structure[]): void => {
-    if (creep.transfer(destination[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-      creep.moveTo(destination[0], {
-        visualizePathStyle: { stroke: "#ffffff" }
+  public static transfer = (creep: Creep, resource: ResourceConstant): void => {
+    if (resource === RESOURCE_ENERGY) {
+      const destinations = creep.room.find(FIND_STRUCTURES, {
+        filter: structure => {
+          return (
+            (structure.structureType === STRUCTURE_SPAWN ||
+              structure.structureType === STRUCTURE_EXTENSION ||
+              structure.structureType === STRUCTURE_TOWER) &&
+            structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
+          )
+        }
       })
+
+      if (destinations[0]) {
+        if (creep.transfer(destinations[0], resource) === ERR_NOT_IN_RANGE) {
+          creep.moveTo(destinations[0], {
+            visualizePathStyle: { stroke: "#ffffff" }
+          })
+        }
+      }
     }
   }
 

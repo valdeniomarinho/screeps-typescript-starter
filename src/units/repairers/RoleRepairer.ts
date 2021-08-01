@@ -4,7 +4,7 @@ export default class RoleRepairer {
   public static role = "repairer"
   public static active = false
   public static total = 0
-  public static source = 0
+
   public static model: BodyPartConstant[] = [WORK, CARRY, MOVE]
 
   public static get current(): number {
@@ -13,6 +13,8 @@ export default class RoleRepairer {
   }
 
   public static run(creep: Creep, restpoint: string): void {
+    creep.memory.restpoint = restpoint
+
     const hasDamagedStructures = creep.room.find(FIND_STRUCTURES, {
       filter: structure => structure.hits < structure.hitsMax
     })
@@ -28,10 +30,10 @@ export default class RoleRepairer {
       if (creep.memory.repairer) {
         Actions.repair(creep)
       } else {
-        Actions.mine(creep, this.source)
+        Actions.mine(creep)
       }
     } else {
-      Actions.rest(creep, restpoint)
+      Actions.rest(creep)
     }
   }
 }

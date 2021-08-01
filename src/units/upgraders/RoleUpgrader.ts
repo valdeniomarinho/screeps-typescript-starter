@@ -4,7 +4,7 @@ export default class RoleUpgrader {
   public static role = "upgrader"
   public static active = false
   public static total = 0
-  public static source = 0
+
   public static model: BodyPartConstant[] = [WORK, CARRY, MOVE]
 
   public static get current(): number {
@@ -13,6 +13,7 @@ export default class RoleUpgrader {
   }
 
   public static run(creep: Creep, restpoint: string): void {
+    creep.memory.restpoint = restpoint
     if (this.active) {
       if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] === 0) {
         creep.memory.upgrading = false
@@ -24,10 +25,10 @@ export default class RoleUpgrader {
       if (creep.memory.upgrading) {
         Actions.upgrade(creep)
       } else {
-        Actions.mine(creep, this.source)
+        Actions.mine(creep)
       }
     } else {
-      Actions.rest(creep, restpoint)
+      Actions.rest(creep)
     }
   }
 }
