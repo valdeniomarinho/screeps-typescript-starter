@@ -2,6 +2,7 @@
 import { ErrorMapper } from 'services/ErrorMapper'
 import Logger from 'services/Logger'
 import MemoryCleaner from 'services/MemoryCleaner'
+import modelFactory from 'services/ModelFactory'
 import RoleAssigner from 'services/RoleAssigner'
 import { getStructures } from 'services/Snippets'
 import SpawnNotifier from 'services/SpawnNotifier'
@@ -85,7 +86,8 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
   RoleRepairer.active = true
   RoleRepairer.total = 1
-  RoleRepairer.model = [MOVE, WORK, CARRY]
+  // RoleRepairer.model = modelFactory({ 2: MOVE, 1: CARRY, 3: WORK }) // diff qty
+  RoleRepairer.model = modelFactory({ MOVE: 2, CARRY: 1, WORK: 2 })
 
   RoleBuilder.active = true
   RoleBuilder.total = 1
