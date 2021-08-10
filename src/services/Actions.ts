@@ -14,21 +14,26 @@ export default class Actions {
   }
 
   public static loadResources = (creep: Creep): void => {
-    // const energyDropped = creep.room.find(FIND_DROPPED_RESOURCES)
+    // load from structures
+    const resourcesPlaces = []
 
-    const tombResources = creep.room.find(FIND_TOMBSTONES, {
+    const tombResource = creep.pos.findClosestByPath(FIND_TOMBSTONES, {
       filter: tombstone => {
         return tombstone.store.getUsedCapacity(RESOURCE_ENERGY) > 0
       }
     })
 
-    const ruinsResources = creep.room.find(FIND_RUINS, {
+    if (tombResource !== null) resourcesPlaces.push(tombResource)
+
+    const ruinResource = creep.pos.findClosestByPath(FIND_RUINS, {
       filter: ruin => {
         return ruin.store.getUsedCapacity(RESOURCE_ENERGY) > 0
       }
     })
 
-    const depotsResources = creep.room.find(FIND_STRUCTURES, {
+    if (ruinResource !== null) resourcesPlaces.push(ruinResource)
+
+    const depotResource = creep.pos.findClosestByPath(FIND_STRUCTURES, {
       filter: structure => {
         return (
           structure.structureType === STRUCTURE_CONTAINER &&
@@ -37,7 +42,7 @@ export default class Actions {
       }
     })
 
-    const resourcesPlaces = [...tombResources, ...ruinsResources, ...depotsResources]
+    if (depotResource !== null) resourcesPlaces.push(depotResource)
 
     if (resourcesPlaces.length) {
       if (creep.withdraw(resourcesPlaces[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
@@ -48,18 +53,48 @@ export default class Actions {
       }
     }
 
-    const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES)
+    // load from dropped
+    const droppedResource = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES)
 
-    if (droppedResources.length) {
-      if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(droppedResources[0], {
+    if (droppedResource !== null) {
+      if (creep.pickup(droppedResource) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(droppedResource, {
           reusePath: 5,
           visualizePathStyle: { stroke: '#88882b' }
         })
       }
     }
 
-    if (resourcesPlaces.length === 0 && droppedResources.length === 0) {
+    // load from storage
+    if (
+      resourcesPlaces.length === 0 &&
+      droppedResource === null &&
+      creep.room.storage &&
+      creep.room.storage.store.getUsedCapacity(RESOURCE_ENERGY) > 0
+    ) {
+      if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(creep.room.storage, {
+          reusePath: 5,
+          visualizePathStyle: { stroke: '#88882b' }
+        })
+      }
+    }
+
+    // no res && creep NOT empty
+    if (
+      resourcesPlaces.length === 0 &&
+      droppedResource === null &&
+      creep.store.getUsedCapacity(RESOURCE_ENERGY) > 0
+    ) {
+      Actions.transfer(creep, RESOURCE_ENERGY)
+    }
+
+    // no res && creep empty
+    if (
+      resourcesPlaces.length === 0 &&
+      droppedResource === null &&
+      creep.store.getUsedCapacity(RESOURCE_ENERGY) === 0
+    ) {
       Actions.rest(creep)
     }
   }
@@ -111,24 +146,28 @@ export default class Actions {
 
   public static transfer = (creep: Creep, resource: ResourceConstant): void => {
     if (resource === RESOURCE_ENERGY) {
-      const destinations = creep.room.find(FIND_STRUCTURES, {
+      // set transfer options
+      let destination = creep.pos.findClosestByPath(FIND_STRUCTURES, {
         filter: structure => {
           return (
             (structure.structureType === STRUCTURE_SPAWN ||
               structure.structureType === STRUCTURE_EXTENSION ||
-              structure.structureType === STRUCTURE_TOWER) &&
+              (structure.structureType === STRUCTURE_TOWER &&
+                structure.store.getUsedCapacity(RESOURCE_ENERGY) < 500)) &&
             structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
           )
         }
       })
 
-      if (Room.prototype.storage !== undefined) {
-        destinations.push(Room.prototype.storage)
+      // set transfer to storage
+      if (destination === null && creep.room.storage !== undefined) {
+        destination = creep.room.storage
       }
 
-      if (destinations[0]) {
-        if (creep.transfer(destinations[0], resource) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(destinations[0], {
+      // do transfer
+      if (destination) {
+        if (creep.transfer(destination, resource) === ERR_NOT_IN_RANGE) {
+          creep.moveTo(destination, {
             visualizePathStyle: { stroke: '#ffffff' }
           })
         }

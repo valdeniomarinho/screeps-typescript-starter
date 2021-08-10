@@ -54,7 +54,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
   // Units
   RoleHauler.active = true
-  RoleHauler.total = 1
+  RoleHauler.total = 3
   RoleHauler.model = modelFactory({
     move: 5,
     work: 0,
