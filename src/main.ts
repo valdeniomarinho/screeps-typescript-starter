@@ -55,41 +55,23 @@ export const loop = ErrorMapper.wrapLoop(() => {
   // Units
   RoleHauler.active = true
   RoleHauler.total = 3
-  RoleHauler.model = [
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY
-  ]
+  RoleHauler.model = modelFactory({
+    move: 5,
+    work: 0,
+    carry: 7,
+    attack: 0,
+    ranged_attack: 0,
+    heal: 0,
+    tough: 0,
+    claim: 0
+  })
 
-  RoleRepairer.active = true
+  RoleRepairer.active = false
   RoleRepairer.total = 1
   RoleRepairer.model = modelFactory({
     move: 2,
-    carry: 1,
     work: 2,
+    carry: 2,
     attack: 0,
     ranged_attack: 0,
     heal: 0,
@@ -99,84 +81,42 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
   RoleBuilder.active = true
   RoleBuilder.total = 1
-  RoleBuilder.model = [
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY
-  ]
+  RoleBuilder.model = modelFactory({
+    move: 5,
+    work: 5,
+    carry: 3,
+    attack: 0,
+    ranged_attack: 0,
+    heal: 0,
+    tough: 0,
+    claim: 0
+  })
 
   RoleUpgrader.active = true
   RoleUpgrader.total = 1
-  RoleUpgrader.model = [
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    MOVE,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY,
-    CARRY
-  ]
+  RoleUpgrader.model = modelFactory({
+    move: 7,
+    work: 6,
+    carry: 5,
+    attack: 0,
+    ranged_attack: 0,
+    heal: 0,
+    tough: 0,
+    claim: 0
+  })
 
   RoleHarvester.active = true
   RoleHarvester.total = 3
-  RoleHarvester.model = [
-    MOVE,
-    MOVE,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK,
-    WORK
-  ]
+  RoleHarvester.model = modelFactory({
+    move: 2,
+    work: 11,
+    carry: 0,
+    attack: 0,
+    ranged_attack: 0,
+    heal: 0,
+    tough: 0,
+    claim: 0
+  })
 
   /*
     retornaModel(move:10, work: 3, carry: 10)
