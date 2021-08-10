@@ -86,8 +86,16 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
   RoleRepairer.active = true
   RoleRepairer.total = 1
-  // RoleRepairer.model = modelFactory({ 2: MOVE, 1: CARRY, 3: WORK }) // diff qty
-  RoleRepairer.model = modelFactory({ MOVE: 2, CARRY: 1, WORK: 2 })
+  RoleRepairer.model = modelFactory({
+    move: 2,
+    carry: 1,
+    work: 2,
+    attack: 0,
+    ranged_attack: 0,
+    heal: 0,
+    tough: 0,
+    claim: 0
+  })
 
   RoleBuilder.active = true
   RoleBuilder.total = 1
