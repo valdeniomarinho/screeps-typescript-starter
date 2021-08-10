@@ -1,15 +1,11 @@
 interface BuildingOrder {
-  wPos: number
-  nPos: number
   structureType: BuildableStructureConstant
   x: number
   y: number
 }
 
-export default class Constructor {
-  public static build(buildingOrder: BuildingOrder): void {
-    const roomName = `W${buildingOrder.wPos}N${buildingOrder.nPos}`
-
+export default class Builder {
+  public static run(roomName: string, buildingOrder: BuildingOrder): void {
     Game.rooms[roomName].createConstructionSite(
       buildingOrder.x,
       buildingOrder.y,

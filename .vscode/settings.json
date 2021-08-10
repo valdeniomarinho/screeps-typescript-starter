@@ -24,7 +24,6 @@
     "typings/**": true
   },
   "typescript.tsdk": "./node_modules/typescript/lib",
-  "eslint.enable": true,
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#29293f",
     "activityBar.activeBorder": "#875858",
@@ -41,5 +40,16 @@
     "titleBar.inactiveBackground": "#15152099",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "#151520"
+  "peacock.color": "#151520",
+  "cSpell.words": [
+    "Buildable",
+    "camelcase",
+    "eqeqeq",
+    "estree",
+    "gohorse",
+    "linebreak",
+    "pserver",
+    "screeps",
+    "splus"
+  ]
 }

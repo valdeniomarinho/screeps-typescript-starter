@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint \"src/**/*.ts\"",
     "build": "rollup -c",
-    "push-main": "rollup -c --environment DEST:main",
+    "push-world": "rollup -c --environment DEST:world",
     "push-pserver": "rollup -c --environment DEST:pserver",
     "push-splus": "rollup -c --environment DEST:splus",
     "push-gohorse": "rollup -c --environment DEST:gohorse",
@@ -20,14 +20,14 @@
     "watch-pserver": "rollup -cw --environment DEST:pserver",
     "watch-season": "rollup -cw --environment DEST:season",
     "watch-sim": "rollup -cw --environment DEST:sim",
-    "lalala": "prettier --write \"*.ts\""
+    "prettier-write": "prettier --write \"*.ts\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/screepers/screeps-typescript-starter.git"
   },
   "author": "",
-  "license": "Unlicense",
+  "license": "Unlicensed",
   "bugs": {
     "url": "https://github.com/screepers/screeps-typescript-starter/issues"
   },

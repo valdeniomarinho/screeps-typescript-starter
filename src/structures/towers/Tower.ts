@@ -1,4 +1,4 @@
-import { getStructures } from "utils/Snippets"
+import { getStructures } from "services/Snippets"
 
 export default class Tower {
   public static run(): void {
@@ -6,7 +6,8 @@ export default class Tower {
 
     if (towers !== undefined) {
       towers.forEach((anyStructure: AnyStructure) => {
-        const tower = anyStructure as StructureTower // CAST
+        // Mandatory Cast Type
+        const tower = anyStructure as StructureTower
 
         const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
           filter: structure => structure.hits < structure.hitsMax

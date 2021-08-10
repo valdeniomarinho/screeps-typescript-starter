@@ -1,4 +1,4 @@
-import Actions from "utils/Actions"
+import Actions from "services/Actions"
 
 export default class RoleUpgrader {
   public static role = "upgrader"
@@ -25,7 +25,7 @@ export default class RoleUpgrader {
       if (creep.memory.upgrading) {
         Actions.upgrade(creep)
       } else {
-        Actions.mine(creep)
+        Actions.loadEnergy(creep)
       }
     } else {
       Actions.rest(creep)

@@ -1,4 +1,4 @@
-import Actions from "utils/Actions"
+import Actions from "services/Actions"
 
 export default class RoleRepairer {
   public static role = "repairer"

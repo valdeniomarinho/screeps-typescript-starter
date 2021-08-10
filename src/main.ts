@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ErrorMapper } from "utils/ErrorMapper"
-import { Logger, Notifier, RoleAssigner, MemoryCleaner } from "utils"
-import { getStructures } from "utils/Snippets"
+import { ErrorMapper } from "services/ErrorMapper"
+import { getStructures } from "services/Snippets"
+import RoleAssigner from "services/RoleAssigner"
+import MemoryCleaner from "services/MemoryCleaner"
+import Logger from "services/Logger"
+import SpawnNotifier from "services/SpawnNotifier"
 import Spawner from "structures/spawners/Spawner"
 import Tower from "structures/towers/Tower"
 import RoleHarvester from "units/harvesters/RoleHarvester"
@@ -22,13 +25,13 @@ declare global {
     [name: string]: string | number | boolean
   }
 
-  interface UniRole {
+  interface UnitRole {
     role: string
     active: boolean
     total: number
     model: BodyPartConstant[]
-    run: any
-    current: any
+    current: number
+    run: (creep: Creep, restpoint: string) => void
   }
 
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -50,7 +53,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
   // Units
   RoleHauler.active = true
-  RoleHauler.total = 2
+  RoleHauler.total = 3
   RoleHauler.model = [
     MOVE,
     MOVE,
@@ -86,14 +89,68 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
   RoleBuilder.active = true
   RoleBuilder.total = 1
-  RoleBuilder.model = [MOVE, WORK, CARRY]
+  RoleBuilder.model = [
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    CARRY,
+    CARRY,
+    CARRY,
+    CARRY,
+    CARRY,
+    CARRY,
+    CARRY,
+    CARRY
+  ]
 
   RoleUpgrader.active = true
   RoleUpgrader.total = 1
-  RoleUpgrader.model = [MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY]
+  RoleUpgrader.model = [
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    CARRY,
+    CARRY,
+    CARRY,
+    CARRY,
+    CARRY,
+    CARRY,
+    CARRY,
+    CARRY
+  ]
 
   RoleHarvester.active = true
-  RoleHarvester.total = 2
+  RoleHarvester.total = 3
   RoleHarvester.model = [
     MOVE,
     MOVE,
@@ -112,28 +169,45 @@ export const loop = ErrorMapper.wrapLoop(() => {
   ]
 
   // Spawners
-  Spawner.run(RoleHauler.total, RoleHauler.current, RoleHauler.role, RoleHauler.model)
-  Spawner.run(RoleRepairer.total, RoleRepairer.current, RoleRepairer.role, RoleRepairer.model)
-  Spawner.run(RoleBuilder.total, RoleBuilder.current, RoleBuilder.role, RoleBuilder.model)
-  Spawner.run(RoleUpgrader.total, RoleUpgrader.current, RoleUpgrader.role, RoleUpgrader.model)
-  Spawner.run(RoleHarvester.total, RoleHarvester.current, RoleHarvester.role, RoleHarvester.model)
+  Spawner.run(RoleHauler)
+  Spawner.run(RoleRepairer)
+  Spawner.run(RoleBuilder)
+  Spawner.run(RoleUpgrader)
+  Spawner.run(RoleHarvester)
+
+  // Towers
+  Tower.run()
 
   RoleAssigner.run(restpoint)
-  Tower.run()
+
   // Tick Functions
   MemoryCleaner.run()
-  Notifier.run()
+  SpawnNotifier.run()
   Logger.run(timeCpuStart)
 
   // ⚠️ TESTING ZONE ⚠️
+  /************************** */
+  // const temp: Record<number, BodyPartConstant> = {
+  //   10: MOVE,
+  //   5: CARRY
+  // }
+  // function transformToBodyPartList(data: Record<number, BodyPartConstant>): BodyPartConstant[] {
+  //   return Object.keys(data)
+  //     .map(name => Number(name))
+  //     .map(count => Array<BodyPartConstant>(count).fill(data[count]))
+  //     .reduce((result: BodyPartConstant[], list: BodyPartConstant[]) => {
+  //       result.push(...list)
+  //       return result
+  //     }, Array<BodyPartConstant>())
+  // }
+  // const list = transformToBodyPartList(temp)
+  /************************** */
   ;(() => {
-    const selectedStructures = getStructures(STRUCTURE_CONTROLLER)
-
-    if (selectedStructures === undefined) return
+    const selectedStructures = getStructures<StructureController>(STRUCTURE_CONTROLLER)
 
     if (selectedStructures.length) {
       selectedStructures.forEach(structure => {
-        // ROOM NAME
+        // PRINT ROOM NAME
         // new RoomVisual(structure.room.name).text(
         //   structure.room.name,
         //   structure.pos.x,
@@ -144,14 +218,14 @@ export const loop = ErrorMapper.wrapLoop(() => {
         //   }
         // )
 
-        // // CIRCLE
+        // CIRCLE RANGE
         // new RoomVisual(structure.room.name).circle(structure.pos, {
         //   fill: "transparent",
         //   radius: TOWER_OPTIMAL_RANGE,
         //   stroke: "red"
         // })
 
-        // RECT
+        // RECT RANGE
         new RoomVisual(structure.room.name).rect(
           structure.pos.x - TOWER_OPTIMAL_RANGE,
           structure.pos.y - TOWER_OPTIMAL_RANGE,
@@ -167,3 +241,5 @@ export const loop = ErrorMapper.wrapLoop(() => {
   })()
 })
 // #endregion
+
+// console.log(JSON.stringify({ var1, var2, var3 }, null, 2))

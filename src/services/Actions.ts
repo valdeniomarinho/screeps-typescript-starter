@@ -85,7 +85,7 @@ export default class Actions {
         }
       }
     } else {
-      console.log(creep.name, ": No sources werent found!")
+      console.log(creep.name, ": No sources weren't found!")
     }
   }
 
@@ -121,6 +121,10 @@ export default class Actions {
           )
         }
       })
+
+      if (Room.prototype.storage !== undefined) {
+        destinations.push(Room.prototype.storage)
+      }
 
       if (destinations[0]) {
         if (creep.transfer(destinations[0], resource) === ERR_NOT_IN_RANGE) {

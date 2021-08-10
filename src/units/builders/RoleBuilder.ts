@@ -1,4 +1,4 @@
-import Actions from "utils/Actions"
+import Actions from "services/Actions"
 
 export default class RoleBuilder {
   public static get role(): string {
@@ -33,7 +33,7 @@ export default class RoleBuilder {
       if (creep.memory.building) {
         Actions.build(creep)
       } else {
-        Actions.mine(creep)
+        Actions.loadEnergy(creep)
       }
     } else {
       Actions.rest(creep)

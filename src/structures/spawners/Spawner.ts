@@ -1,17 +1,22 @@
+import { getStructures } from "services/Snippets"
+
 export default class Spawner {
-  public static run(total: number, current: number, role: string, model: BodyPartConstant[]): void {
-    const newName = `${role}${Game.time}`
+  public static run(unit: UnitRole): void {
+    const newName = `${unit.role}${Game.time}`
+
+    const spawn = getStructures<StructureSpawn>(STRUCTURE_SPAWN).find(s => !s.spawning?.name)
+
+    if (!spawn) return
 
     if (
-      current < total &&
-      Game.spawns.Spawn1.spawnCreep(model, newName, {
-        memory: { role }
+      unit.current < unit.total &&
+      spawn.spawnCreep(unit.model, newName, {
+        memory: { role: unit.role }
       }) === ERR_NOT_ENOUGH_ENERGY
     ) {
       console.log(`Trying to Spawn: ${newName}`)
-
-      Game.spawns.Spawn1.spawnCreep([WORK, CARRY, MOVE], newName, {
-        memory: { role }
+      spawn.spawnCreep([WORK, CARRY, MOVE], newName, {
+        memory: { role: unit.role }
       })
     }
   }

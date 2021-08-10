@@ -29,62 +29,62 @@ module.exports = {
     }
   },
   rules: {
-    camelcase: "off",
-    complexity: "off",
-    radix: "error",
-    eqeqeq: ["error", "smart"],
-    "@typescript-eslint/array-type": "error",
-    "@typescript-eslint/consistent-type-assertions": "error",
-    "@typescript-eslint/consistent-type-definitions": "error",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-member-accessibility": [
-      "error",
-      {
-        accessibility: "explicit"
-      }
-    ],
+    // camelcase: "off",
+    // complexity: "off",
+    // radix: "error",
+    // eqeqeq: ["error", "smart"],
+    // "@typescript-eslint/array-type": "error",
+    // "@typescript-eslint/consistent-type-assertions": "error",
+    // "@typescript-eslint/consistent-type-definitions": "error",
+    // "@typescript-eslint/explicit-function-return-type": "off",
+    // "@typescript-eslint/explicit-member-accessibility": [
+    //   "error",
+    //   {
+    //     accessibility: "explicit"
+    //   }
+    // ],
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-parameter-properties": "off",
-    "@typescript-eslint/no-unused-expressions": "off",
-    "@typescript-eslint/no-use-before-define": ["error", { functions: false }],
-    "@typescript-eslint/prefer-for-of": "error",
-    "@typescript-eslint/space-within-parens": ["off", "never"],
-    "@typescript-eslint/unified-signatures": "error",
-    "arrow-parens": ["off", "as-needed"],
-    "dot-notation": "error",
-    "eol-last": "off",
-    "guard-for-in": "off",
-    "id-blacklist": ["error", "any", "Number", "number", "String", "string", "Boolean", "boolean", "Undefined"],
-    "id-match": "error",
-    "linebreak-style": "off",
-    "max-classes-per-file": "off",
-    "new-parens": "off",
-    "newline-per-chained-call": "off",
-    "no-unused-vars": "off",
-    "no-bitwise": "error",
-    "no-caller": "error",
-    "no-cond-assign": "error",
-    "no-console": "off",
-    "no-eval": "error",
-    "no-invalid-this": "off",
-    "no-multiple-empty-lines": "off",
-    "no-new-wrappers": "error",
-    "no-shadow": [
-      "error",
-      {
-        hoist: "all"
-      }
-    ],
-    "no-throw-literal": "error",
-    "no-trailing-spaces": "off",
-    "no-undef-init": "error",
-    "no-underscore-dangle": "warn",
-    "no-var": "error",
-    "object-shorthand": "error",
-    "one-var": ["error", "never"],
-    "quote-props": "off",
-    "sort-imports": "off",
-    "spaced-comment": "error"
+    // "@typescript-eslint/no-parameter-properties": "off",
+    // "@typescript-eslint/no-unused-expressions": "off",
+    // "@typescript-eslint/no-use-before-define": ["error", { functions: false }],
+    // "@typescript-eslint/prefer-for-of": "error",
+    // "@typescript-eslint/space-within-parens": ["off", "never"],
+    // "@typescript-eslint/unified-signatures": "error",
+    // "arrow-parens": ["off", "as-needed"],
+    // "dot-notation": "error",
+    // "eol-last": "off",
+    // "guard-for-in": "off",
+    // "id-blacklist": ["error", "any", "Number", "number", "String", "string", "Boolean", "boolean", "Undefined"],
+    // "id-match": "error",
+    // "linebreak-style": "off",
+    // "max-classes-per-file": "off",
+    // "new-parens": "off",
+    // "newline-per-chained-call": "off",
+    // "no-unused-vars": "off",
+    // "no-bitwise": "error",
+    // "no-caller": "error",
+    // "no-cond-assign": "error",
+    // "no-console": "off",
+    // "no-eval": "error",
+    // "no-invalid-this": "off",
+    // "no-multiple-empty-lines": "off",
+    // "no-new-wrappers": "error",
+    // "no-shadow": [
+    //   "error",
+    //   {
+    //     hoist: "all"
+    //   }
+    // ],
+    // "no-throw-literal": "error",
+    // "no-trailing-spaces": "off",
+    // "no-undef-init": "error",
+    // "no-underscore-dangle": "warn",
+    // "no-var": "error",
+    // "object-shorthand": "error",
+    // "one-var": ["error", "never"],
+    // "quote-props": "off",
+    // "sort-imports": "off",
+    // "spaced-comment": "error"
   }
 }
 
