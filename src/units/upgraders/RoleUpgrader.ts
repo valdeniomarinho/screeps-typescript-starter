@@ -26,7 +26,7 @@ export default class RoleUpgrader {
       if (creep.memory.upgrading) {
         Actions.upgrade(creep)
       } else {
-        Actions.loadEnergy(creep)
+        Actions.loadResources(creep)
       }
     } else {
       Actions.rest(creep)

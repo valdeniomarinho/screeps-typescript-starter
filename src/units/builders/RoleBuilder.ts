@@ -29,7 +29,7 @@ export default class RoleBuilder {
       if (creep.memory.building) {
         Actions.build(creep)
       } else {
-        Actions.loadEnergy(creep)
+        Actions.loadResources(creep)
       }
     } else {
       Actions.rest(creep)
