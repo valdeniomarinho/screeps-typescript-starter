@@ -13,22 +13,22 @@ export default class Actions {
     }
   }
 
-  public static loadEnergy = (creep: Creep): void => {
+  public static loadResources = (creep: Creep): void => {
     // const energyDropped = creep.room.find(FIND_DROPPED_RESOURCES)
 
-    const energyTombstones = creep.room.find(FIND_TOMBSTONES, {
+    const tombResources = creep.room.find(FIND_TOMBSTONES, {
       filter: tombstone => {
         return tombstone.store.getUsedCapacity(RESOURCE_ENERGY) > 0
       }
     })
 
-    const energyRuins = creep.room.find(FIND_RUINS, {
+    const ruinsResources = creep.room.find(FIND_RUINS, {
       filter: ruin => {
         return ruin.store.getUsedCapacity(RESOURCE_ENERGY) > 0
       }
     })
 
-    const energyDepots = creep.room.find(FIND_STRUCTURES, {
+    const depotsResources = creep.room.find(FIND_STRUCTURES, {
       filter: structure => {
         return (
           structure.structureType === STRUCTURE_CONTAINER &&
@@ -37,29 +37,29 @@ export default class Actions {
       }
     })
 
-    const energyPlaces = [...energyTombstones, ...energyRuins, ...energyDepots]
+    const resourcesPlaces = [...tombResources, ...ruinsResources, ...depotsResources]
 
-    if (energyPlaces.length) {
-      if (creep.withdraw(energyPlaces[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(energyPlaces[0], {
+    if (resourcesPlaces.length) {
+      if (creep.withdraw(resourcesPlaces[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(resourcesPlaces[0], {
           reusePath: 5,
           visualizePathStyle: { stroke: '#88882b' }
         })
       }
     }
 
-    const dropped = creep.room.find(FIND_DROPPED_RESOURCES)
+    const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES)
 
-    if (dropped.length) {
-      if (creep.pickup(dropped[0]) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(dropped[0], {
+    if (droppedResources.length) {
+      if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(droppedResources[0], {
           reusePath: 5,
           visualizePathStyle: { stroke: '#88882b' }
         })
       }
     }
 
-    if (energyPlaces.length === 0 && dropped.length === 0) {
+    if (resourcesPlaces.length === 0 && droppedResources.length === 0) {
       Actions.rest(creep)
     }
   }

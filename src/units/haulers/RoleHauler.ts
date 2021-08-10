@@ -17,7 +17,7 @@ export default class RoleHauler {
 
     if (this.active) {
       if (creep.store.getFreeCapacity() > 0) {
-        Actions.loadEnergy(creep)
+        Actions.loadResources(creep)
       } else {
         Actions.transfer(creep, RESOURCE_ENERGY)
       }
