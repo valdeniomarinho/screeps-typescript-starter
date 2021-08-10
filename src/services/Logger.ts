@@ -6,7 +6,7 @@ import RoleUpgrader from 'units/upgraders/RoleUpgrader'
 
 export default class Logger {
   public static run(timeCpuStart: number): void {
-    const exeTime = Math.floor(Game.cpu.getUsed() - timeCpuStart)
+    const exeTime = Math.ceil(Game.cpu.getUsed() - timeCpuStart)
 
     const cpuLimit = Game.cpu.tickLimit
 
