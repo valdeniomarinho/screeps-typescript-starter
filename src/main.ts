@@ -13,7 +13,7 @@ import RoleBuilder from "units/builders/RoleBuilder"
 import RoleRepairer from "units/repairers/RoleRepairer"
 import RoleHauler from "units/haulers/RoleHauler"
 
-// INTERFACE #region[magenta]
+// INTERFACES #region[magenta]
 //
 declare global {
   interface Memory {
@@ -43,7 +43,7 @@ declare global {
 }
 // #endregion
 
-// MAIN #region [blue]
+// LOOP #region [blue]
 export const loop = ErrorMapper.wrapLoop(() => {
   // EXE Time Tracking
   const timeCpuStart = Game.cpu.getUsed()

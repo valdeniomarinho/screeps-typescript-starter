@@ -10,11 +10,7 @@ export default class RoleBuilder {
   public static model: BodyPartConstant[] = [WORK, CARRY, MOVE]
 
   public static get current(): number {
-    const currentHarvesters = Object.keys(Game.creeps).filter(
-      creep => Game.creeps[creep].memory.role === "builder"
-    )
-
-    return currentHarvesters.length
+    return Object.keys(Game.creeps).filter(creep => Game.creeps[creep].memory.role === "builder").length
   }
 
   public static run(creep: Creep, restpoint: string): void {
