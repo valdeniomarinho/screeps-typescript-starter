@@ -6,7 +6,7 @@ export default class Actions {
       if (creep.build(constructionSites[0]) === ERR_NOT_IN_RANGE) {
         creep.moveTo(constructionSites[0], {
           visualizePathStyle: {
-            stroke: "#ffffff"
+            stroke: '#ffffff'
           }
         })
       }
@@ -43,7 +43,7 @@ export default class Actions {
       if (creep.withdraw(energyPlaces[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
         creep.moveTo(energyPlaces[0], {
           reusePath: 5,
-          visualizePathStyle: { stroke: "#88882b" }
+          visualizePathStyle: { stroke: '#88882b' }
         })
       }
     }
@@ -54,7 +54,7 @@ export default class Actions {
       if (creep.pickup(dropped[0]) === ERR_NOT_IN_RANGE) {
         creep.moveTo(dropped[0], {
           reusePath: 5,
-          visualizePathStyle: { stroke: "#88882b" }
+          visualizePathStyle: { stroke: '#88882b' }
         })
       }
     }
@@ -80,7 +80,7 @@ export default class Actions {
         if (creep.harvest(sourceId) === ERR_NOT_IN_RANGE) {
           creep.moveTo(sourceId, {
             reusePath: 5,
-            visualizePathStyle: { stroke: "#88882b" }
+            visualizePathStyle: { stroke: '#88882b' }
           })
         }
       }
@@ -105,7 +105,7 @@ export default class Actions {
 
   public static rest = (creep: Creep): void => {
     creep.moveTo(Game.flags[creep.memory.restpoint as string].pos, {
-      visualizePathStyle: { stroke: "#00ffff" }
+      visualizePathStyle: { stroke: '#00ffff' }
     })
   }
 
@@ -129,7 +129,7 @@ export default class Actions {
       if (destinations[0]) {
         if (creep.transfer(destinations[0], resource) === ERR_NOT_IN_RANGE) {
           creep.moveTo(destinations[0], {
-            visualizePathStyle: { stroke: "#ffffff" }
+            visualizePathStyle: { stroke: '#ffffff' }
           })
         }
       }
@@ -139,7 +139,7 @@ export default class Actions {
   public static upgrade = (creep: Creep): void => {
     if (creep.room.controller && creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
       creep.moveTo(creep.room.controller, {
-        visualizePathStyle: { stroke: "#ffffff" }
+        visualizePathStyle: { stroke: '#ffffff' }
       })
     }
   }

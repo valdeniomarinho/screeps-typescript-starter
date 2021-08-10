@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ErrorMapper } from "services/ErrorMapper"
-import { getStructures } from "services/Snippets"
-import RoleAssigner from "services/RoleAssigner"
-import MemoryCleaner from "services/MemoryCleaner"
-import Logger from "services/Logger"
-import SpawnNotifier from "services/SpawnNotifier"
-import Spawner from "structures/spawners/Spawner"
-import Tower from "structures/towers/Tower"
-import RoleHarvester from "units/harvesters/RoleHarvester"
-import RoleUpgrader from "units/upgraders/RoleUpgrader"
-import RoleBuilder from "units/builders/RoleBuilder"
-import RoleRepairer from "units/repairers/RoleRepairer"
-import RoleHauler from "units/haulers/RoleHauler"
+import { ErrorMapper } from 'services/ErrorMapper'
+import Logger from 'services/Logger'
+import MemoryCleaner from 'services/MemoryCleaner'
+import RoleAssigner from 'services/RoleAssigner'
+import { getStructures } from 'services/Snippets'
+import SpawnNotifier from 'services/SpawnNotifier'
+import Spawner from 'structures/spawners/Spawner'
+import Tower from 'structures/towers/Tower'
+import RoleBuilder from 'units/builders/RoleBuilder'
+import RoleHarvester from 'units/harvesters/RoleHarvester'
+import RoleHauler from 'units/haulers/RoleHauler'
+import RoleRepairer from 'units/repairers/RoleRepairer'
+import RoleUpgrader from 'units/upgraders/RoleUpgrader'
 
 // INTERFACES #region[magenta]
 //
@@ -49,7 +49,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
   const timeCpuStart = Game.cpu.getUsed()
 
   // Positions
-  const restpoint = "Rest1"
+  const restpoint = 'Rest1'
 
   // Units
   RoleHauler.active = true
@@ -168,19 +168,18 @@ export const loop = ErrorMapper.wrapLoop(() => {
     WORK
   ]
 
+  /*
+    retornaModel(move:10, work: 3, carry: 10)
+  */
+
   // Spawners
-  Spawner.run(RoleHauler)
-  Spawner.run(RoleRepairer)
-  Spawner.run(RoleBuilder)
-  Spawner.run(RoleUpgrader)
-  Spawner.run(RoleHarvester)
+  Spawner.runList([RoleHauler, RoleRepairer, RoleBuilder, RoleUpgrader, RoleHarvester])
 
   // Towers
   Tower.run()
 
+  // Services
   RoleAssigner.run(restpoint)
-
-  // Tick Functions
   MemoryCleaner.run()
   SpawnNotifier.run()
   Logger.run(timeCpuStart)
@@ -191,6 +190,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
   //   10: MOVE,
   //   5: CARRY
   // }
+
   // function transformToBodyPartList(data: Record<number, BodyPartConstant>): BodyPartConstant[] {
   //   return Object.keys(data)
   //     .map(name => Number(name))
@@ -232,8 +232,8 @@ export const loop = ErrorMapper.wrapLoop(() => {
           TOWER_OPTIMAL_RANGE * 2,
           TOWER_OPTIMAL_RANGE * 2,
           {
-            fill: "transparent",
-            stroke: "red"
+            fill: 'transparent',
+            stroke: 'red'
           }
         )
       })

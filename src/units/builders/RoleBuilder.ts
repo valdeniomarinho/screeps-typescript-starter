@@ -1,8 +1,8 @@
-import Actions from "services/Actions"
+import Actions from 'services/Actions'
 
 export default class RoleBuilder {
   public static get role(): string {
-    return "builder"
+    return 'builder'
   }
 
   public static active = false
@@ -10,7 +10,7 @@ export default class RoleBuilder {
   public static model: BodyPartConstant[] = [WORK, CARRY, MOVE]
 
   public static get current(): number {
-    return Object.keys(Game.creeps).filter(creep => Game.creeps[creep].memory.role === "builder").length
+    return Object.keys(Game.creeps).filter(creep => Game.creeps[creep].memory.role === 'builder').length
   }
 
   public static run(creep: Creep, restpoint: string): void {

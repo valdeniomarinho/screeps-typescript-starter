@@ -1,4 +1,4 @@
-import { getStructures } from "services/Snippets"
+import { getStructures } from 'services/Snippets'
 
 export default class Tower {
   public static run(): void {

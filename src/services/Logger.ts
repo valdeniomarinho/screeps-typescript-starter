@@ -1,8 +1,8 @@
-import RoleBuilder from "units/builders/RoleBuilder"
-import RoleHarvester from "units/harvesters/RoleHarvester"
-import RoleHauler from "units/haulers/RoleHauler"
-import RoleRepairer from "units/repairers/RoleRepairer"
-import RoleUpgrader from "units/upgraders/RoleUpgrader"
+import RoleBuilder from 'units/builders/RoleBuilder'
+import RoleHarvester from 'units/harvesters/RoleHarvester'
+import RoleHauler from 'units/haulers/RoleHauler'
+import RoleRepairer from 'units/repairers/RoleRepairer'
+import RoleUpgrader from 'units/upgraders/RoleUpgrader'
 
 export default class Logger {
   public static run(timeCpuStart: number): void {

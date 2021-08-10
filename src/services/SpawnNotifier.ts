@@ -17,7 +17,7 @@ export default class SpawnNotifier {
           Game.spawns[spawnName].pos.x,
           Game.spawns[spawnName].pos.y + 1.5,
           {
-            align: "center",
+            align: 'center',
             opacity: 0.8
           }
         )

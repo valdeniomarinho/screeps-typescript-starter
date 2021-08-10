@@ -1,6 +1,10 @@
-import { getStructures } from "services/Snippets"
+import { getStructures } from 'services/Snippets'
 
 export default class Spawner {
+  public static runList(units: UnitRole[]): void {
+    units.forEach(u => this.run(u))
+  }
+
   public static run(unit: UnitRole): void {
     const newName = `${unit.role}${Game.time}`
 
